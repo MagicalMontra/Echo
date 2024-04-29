@@ -4,11 +4,16 @@ namespace SETHD.Echo
 {
     public interface IAudioChannel
     {
-        void Reinitialize(AudioBank audioBank);
-        UniTask Play(string key);
-
+        void Reinitialize();
+        UniTask Play(string key, PlayMode playMode);
         UniTask Pause();
-
         UniTask Stop();
+        UniTask Stop(string key);
+    }
+
+    public enum PlayMode
+    {
+        StartOver,
+        Transit
     }
 }

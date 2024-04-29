@@ -6,19 +6,17 @@ namespace SETHD.Echo
 {
     public class AudioChannelFacade : MonoBehaviour
     {
-        private AudioBank audioBank;
         private IAudioChannel audioChannel;
 
         [Inject]
-        public void Construct(IAudioChannel audioChannel, AudioBank audioBank)
+        public void Construct(IAudioChannel audioChannel)
         {
-            this.audioBank = audioBank;
             this.audioChannel = audioChannel;
         }
 
-        public void Play(int index)
+        public void Play(string key)
         {
-            audioChannel.Play(audioBank.Audios[index].key).Forget();
+            audioChannel.Play(key, PlayMode.Transit).Forget();
         }
     }
 }

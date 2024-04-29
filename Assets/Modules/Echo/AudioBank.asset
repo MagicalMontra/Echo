@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdb12e16137e1f43a4c31b9464466e8, type: 3}
   m_Name: AudioBank
   m_EditorClassIdentifier: 
+  seperator: /
   audios:
-  - key: layer1
-    clip: {fileID: 8300000, guid: 856b275536087af44a2c4c1e59565ede, type: 3}
-  - key: layer2
-    clip: {fileID: 8300000, guid: 6f12ccaf2a31b14408d0e95b47c194dc, type: 3}
+    separator: /
+    rawData:
+    - key: BGM/Idle
+      value: {fileID: 8300000, guid: 856b275536087af44a2c4c1e59565ede, type: 3}
+    - key: BGM/Battle
+      value: {fileID: 8300000, guid: 6f12ccaf2a31b14408d0e95b47c194dc, type: 3}

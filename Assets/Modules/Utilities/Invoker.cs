@@ -1,18 +1,18 @@
-
 using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using Cysharp.Threading.Tasks;
 
 namespace SETHD.Utilities
 {
+    #nullable enable
     public class Invoker : MonoBehaviour
     {
         [Serializable]
         public enum InvokeCycle
         {
             Start,
-            Frameone,
+            FrameOne,
             Custom = 0
         }
 
@@ -41,7 +41,7 @@ namespace SETHD.Utilities
             if (hasInvoked)
                 return;
             
-            if (cycle != InvokeCycle.Frameone)
+            if (cycle != InvokeCycle.FrameOne)
                 return;
 
             await UniTask.DelayFrame(1);

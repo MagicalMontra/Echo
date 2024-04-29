@@ -1,34 +1,41 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
+using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SETHD.Echo
 {
     public class SfxChannel : IAudioChannel
     {
         private bool isPaused;
-        private readonly List<AudioSource> actives;
-        private readonly Dictionary<string, AudioClip> data;
+        
+        private readonly AudioBank audioBank;
+        private readonly Dictionary<string, AudioSource> actives;
         private readonly AudioSourceProvider audioSourceProvider;
-
-        public void Reinitialize(AudioBank audioBank)
+        
+        public SfxChannel(AudioBank audioBank, AudioSourceProvider audioSourceProvider)
         {
-            data.Clear();
-            
-            for (int i = 0; i < audioBank.Audios.Length; i++)
-            {
-                data.Add(audioBank.Audios[i].key, audioBank.Audios[i].clip);
-            }
+            this.audioBank = audioBank;
+            this.audioSourceProvider = audioSourceProvider;
+            actives = new Dictionary<string, AudioSource>();
         }
 
-        public async UniTask Play(string key)
+        public void Reinitialize()
         {
+
+        }
+
+        public async UniTask Play(string key, PlayMode playMode = PlayMode.StartOver)
+        {
+            if (!audioBank.Audios.TryGet(key, out var value))
+                return;
+            
             var rented = audioSourceProvider.Rent();
-            actives.Add(rented);
-            Assert.IsTrue(data.ContainsKey(key));
-            rented.clip = data[key];
+            actives.Add(key, rented);
+            Assert.IsTrue(value);
+            rented.clip = value;
             rented.Play();
+            await UniTask.Yield();
         }
 
         public async UniTask Pause()
@@ -37,23 +44,37 @@ namespace SETHD.Echo
             {
                 if (isPaused)
                 {
-                    source.UnPause();
+                    source.Value.UnPause();
                     return;
                 }
                 
-                source.Pause();
+                source.Value.Pause();
             }
 
             isPaused = !isPaused;
+            await UniTask.Yield();
         }
 
         public async UniTask Stop()
         {
             foreach (var source in actives)
             {
-                source.Stop();
-                audioSourceProvider.Return(source);
+                source.Value.Stop();
+                audioSourceProvider.Return(source.Value);
             }
+            
+            await UniTask.Yield();
+        }
+
+        public async UniTask Stop(string key)
+        {
+            if (!actives.ContainsKey(key))
+                return;
+            
+            actives[key].UnPause();
+            audioSourceProvider.Return(actives[key]);
+            actives.Remove(key);
+            await UniTask.Yield();
         }
     }
 }

@@ -7,9 +7,9 @@ namespace SETHD.Echo
     [CreateAssetMenu(menuName = "Create AudioBank", fileName = "AudioBank", order = 0)]
     public class AudioBank : ScriptableObject
     {
-        public AudioKeypair[] Audios => audios;
+        public AudioConfig Audios => audios;
         
         [SerializeField]
-        private AudioKeypair[] audios;
+        private AudioConfig audios;
     }
 }
