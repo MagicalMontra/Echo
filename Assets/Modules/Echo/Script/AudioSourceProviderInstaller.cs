@@ -12,7 +12,7 @@ namespace SETHD.Echo
         {
             Container.Bind<AudioSourceProvider>().AsSingle();
             Container.Bind<Transform>().FromInstance(group).AsSingle();
-            Container.BindFactory<Transform, AudioSource, PlaceholderFactory<Transform, AudioSource>>().FromFactory<AudioSourceFactory>();
+            Container.BindFactory<AudioSource, AudioSourceFactory>().FromNewComponentOnNewGameObject().UnderTransform(group);
         }
     }
 }

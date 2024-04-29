@@ -1,27 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Zenject;
 using UnityEngine;
-using Zenject;
+using System.Collections.Generic;
 
 namespace SETHD.Echo
 {
     public class AudioSourceProvider
     {
-        public int Count => disables.Count;
-
-        private readonly Transform group;
+        private readonly AudioSourceFactory factory;
         private readonly Stack<AudioSource> disables;
-        private readonly PlaceholderFactory<Transform, AudioSource> factory;
 
-        public AudioSourceProvider(Transform group, PlaceholderFactory<Transform, AudioSource> factory)
+        public AudioSourceProvider(AudioSourceFactory factory)
         {
-            this.group = group;
             this.factory = factory;
             disables = new Stack<AudioSource>();
         }
 
         public AudioSource Rent()
         {
-            var audioSource = disables.Count <= 0 ? factory.Create(group) : disables.Pop();
+            var audioSource = disables.Count <= 0 ? factory.Create() : disables.Pop();
             return audioSource;
         }
 

@@ -145,6 +145,7 @@ namespace SETHD.Echo
             }
                     
             targetSource.volume = targetVolume;
+            targetSource.Stop();
             actives.Remove(key);
             audioSourceProvider.Return(targetSource);
         }

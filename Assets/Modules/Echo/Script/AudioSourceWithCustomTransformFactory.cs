@@ -3,11 +3,11 @@ using Zenject;
 
 namespace SETHD.Echo
 {
-    public class AudioSourceFactory : IFactory<Transform, AudioSource>
+    public class AudioSourceWithCustomTransformFactory : IFactory<Transform, AudioSource>
     {
         private readonly DiContainer container;
 
-        public AudioSourceFactory(DiContainer container)
+        public AudioSourceWithCustomTransformFactory(DiContainer container)
         {
             this.container = container;
         }
