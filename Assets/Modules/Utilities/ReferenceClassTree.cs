@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace SETHD.Utilities.HotPlay.Utilities
+namespace SETHD.Utilities
 {
     [Serializable]
     public class ReferenceClassTree<T> : ISerializationCallbackReceiver where T : class

@@ -1,6 +1,6 @@
 ﻿using System;
-using SETHD.Utilities.HotPlay.Utilities;
 using UnityEngine;
+using SETHD.Utilities;
 
 namespace SETHD.Echo
 {
